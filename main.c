@@ -60,6 +60,7 @@ int main(void) {
                 Guardar estado.
                 Chamar inserirNaLinha().
             */
+           
         }
 
         else if (strcmp(comando, "DeleteLine") == 0) {
