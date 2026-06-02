@@ -17,6 +17,16 @@ void libertarEditor(Editor *ed) {
         Colocar inicio, fim e cursor a NULL
         Antonio
     */
+   Linha *atual = ed->inicio;
+   while (atual != NULL) {
+        Linha *proxima = atual->seguinte;
+        free(atual);
+        atual = proxima;
+   }
+    ed -> inicio = NULL;
+    ed -> fim = NULL;
+    ed -> cursor = NULL;
+    ed -> totalLinhas = 0;
 }
 
 Linha *criarLinha(const char *texto) {
@@ -51,6 +61,37 @@ void inserirNaLinha(Editor *ed, int n, const char *texto) {
         Depois inserir antes dela.
         Antonio
     */
+   if(n < 1 || n > ed->totalLinhas + 1) {
+        printf("Número de linha inválido.\n");
+        return;
+   }
+   if (n == ed->totalLinhas + 1){
+        inserirNoFim(ed, texto);
+        return;
+   }
+    Linha *linhaAtual = obterLinha(ed, n);
+    if (linhaAtual == NULL){
+        printf("Linha não encontrada.\n");
+        return;
+    }
+    Linha *novaLinha = criarLinha(texto);
+
+    if (novaLinha == NULL){
+        printf("Erro ao criar linha.\n");
+        return;
+    }
+    novaLinha->seguinte = linhaAtual;
+    novaLinha->anterior = linhaAtual->anterior;
+
+    if(linhaAtual->anterior != NULL){
+        linhaAtual->anterior->seguinte = novaLinha;
+    } else {
+        ed->inicio = novaLinha;
+    }
+    linhaAtual->anterior = novaLinha;
+
+    ed->cursor = novaLinha;
+    ed->totalLinhas++;
 }
 
 void inserirNoFim(Editor *ed, const char *texto) {
@@ -81,6 +122,14 @@ void removerLinhaN(Editor *ed, int n) {
         Reutilizar removerLinhaCursor().
         Antonio
     */
+   Linha *linhaN = obterLinha(ed, n);
+
+   if(linhaN == NULL){
+        printf("Linha não encontrada.\n");
+        return;
+    }
+    ed->cursor = linhaN;
+    removerLinhaCursor(ed);
 }
 
 void editarCursor(Editor *ed, const char *texto) {
@@ -106,6 +155,9 @@ void subirCursor(Editor *ed) {
         mover cursor para cursor->anterior.
         Antonio
     */
+   if(ed->cursor != NULL && ed->cursor->anterior != NULL){
+        ed->cursor = ed->cursor->anterior;
+   }
 }
 
 void descerCursor(Editor *ed) {
@@ -131,6 +183,17 @@ void imprimirCursor(Editor *ed) {
         Imprimir apenas a linha atual do cursor.
         Antonio
     */
+   if(ed->cursor != NULL){
+        printf("Cursor Vazio. \n");
+        return;
+   }
+   Linha *linhaAtual = ed->cursor;
+   int numeroLinha = 1;
+   while(linhaAtual != NULL){
+        linhaAtual = linhaAtual->seguinte;
+        numeroLinha++;
+   }
+   printf("-> %d: %s\n", numeroLinha, ed->cursor->texto);
 }
 
 void pesquisarTexto(Editor *ed, const char *padrao) {
@@ -160,4 +223,16 @@ void inserirTextoComQuebra(Editor *ed, const char *texto) {
         Inserir cada bloco como uma linha.
         Antonio
     */
+   int tamanho = strlen(texto);
+   int i = 0;
+   while(i < tamanho){
+    char bloco[MAX_LINHA + 1];
+
+    strncpy(bloco, texto + i, MAX_LINHA);
+    bloco[MAX_LINHA] = '\0';
+
+    inserirNoFim(ed, bloco);
+
+    i += MAX_LINHA;
+   }
 }
