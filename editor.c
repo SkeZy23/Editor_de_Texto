@@ -42,16 +42,33 @@ Linha *criarLinha(const char *texto) {
 }
 
 void inserirNoCursor(Editor *ed, const char *texto) {
-    /*
-        Inserir uma nova linha na posição atual do cursor.
-        
-        Casos a tratar:
-        - Documento vazio
-        - Cursor no início
-        - Cursor no meio
-        - Cursor no fim
-        Rodrigo
-    */
+    /*Rodrigo*/
+    Linha *novaLinha = criarLinha(texto);
+    if (novaLinha == NULL) {
+        printf("Erro ao criar linha.\n");
+        return;
+    }
+
+    if (ed->cursor == NULL) {
+        ed->inicio = novaLinha;
+        ed->fim = novaLinha;
+        ed->cursor = novaLinha;
+        ed->totalLinhas++;
+        return;
+    }
+
+    novaLinha->seguinte = ed->cursor;
+    novaLinha->anterior = ed->cursor->anterior;
+
+    if (ed->cursor->anterior != NULL) {
+        ed->cursor->anterior->seguinte = novaLinha;
+    } else {
+        ed->inicio = novaLinha;
+    }
+
+    ed->cursor->anterior = novaLinha;
+    ed->cursor = novaLinha;
+    ed->totalLinhas++;
 }
 
 void inserirNaLinha(Editor *ed, int n, const char *texto) {
@@ -104,15 +121,29 @@ void inserirNoFim(Editor *ed, const char *texto) {
 }
 
 void removerLinhaCursor(Editor *ed) {
-    /*
-        Remover a linha onde está o cursor.
-        
-        Depois de remover:
-        - Se existir linha seguinte, cursor passa para ela.
-        - Caso contrário, se existir anterior, cursor passa para ela.
-        - Se não existir nenhuma, cursor fica NULL.
-        Rodrigo
-    */
+    /*Rodrigo*/
+if (ed->cursor == NULL)
+return;
+Linha *aRemover = ed->cursor;
+if (aRemover->seguinte != NULL) {
+ed->cursor = aRemover->seguinte;
+} else if (aRemover->anterior != NULL) {
+ed->cursor = aRemover->anterior;
+} else {
+ed->cursor = NULL;
+}
+if (aRemover->anterior != NULL) {
+aRemover->anterior->seguinte = aRemover->seguinte;
+} else {
+ed->inicio = aRemover->seguinte;
+}
+if (aRemover->seguinte != NULL) {
+aRemover->seguinte->anterior = aRemover->anterior;
+} else {
+ed->fim = aRemover->anterior;
+}
+free(aRemover);
+ed->totalLinhas--;
 }
 
 void removerLinhaN(Editor *ed, int n) {
@@ -141,11 +172,14 @@ void editarCursor(Editor *ed, const char *texto) {
 }
 
 void editarLinhaN(Editor *ed, int n, const char *texto) {
-    /*
-        Encontrar a linha n.
-        Substituir o conteúdo dessa linha pelo texto recebido.
-        Rodrigo
-    */
+/*rodrigo*/
+Linha *linha = obterLinha(ed, n);
+if (linha == NULL) {
+printf("Linha não encontrada.\n");
+return;
+}
+strncpy(linha->texto, texto, MAX_LINHA);
+linha->texto[MAX_LINHA] = '\0';
 }
 
 void subirCursor(Editor *ed) {
@@ -170,12 +204,18 @@ void descerCursor(Editor *ed) {
 }
 
 void imprimirDocumento(Editor *ed) {
-    /*
-        Percorrer desde o início até ao fim.
-        Imprimir número da linha e conteúdo.
-        A linha do cursor deve estar assinalada.
-        Rodrigo
-    */
+/*Rodrigo*/
+Linha *atual = ed->inicio;
+int numeroLinha = 1;
+while (atual != NULL) {
+if (atual == ed->cursor) {
+printf("-> %d: %s\n", numeroLinha, atual->texto);
+} else {
+printf("   %d: %s\n", numeroLinha, atual->texto);
+}
+atual = atual->seguinte;
+numeroLinha++;
+}
 }
 
 void imprimirCursor(Editor *ed) {
@@ -207,14 +247,18 @@ void pesquisarTexto(Editor *ed, const char *padrao) {
 }
 
 Linha *obterLinha(Editor *ed, int n) {
-    /*
-        Validar se n está entre 1 e totalLinhas.
-        Percorrer a lista até chegar à linha n.
-        Devolver ponteiro para essa linha.
-        Rodrigo
-    */
-
-    return NULL;
+/*rodrigo*/
+if (n < 1 || n > ed->totalLinhas)
+return NULL;
+Linha *atual = ed->inicio;
+int i = 1;
+while (atual != NULL) {
+if (i == n)
+return atual;
+atual = atual->seguinte;
+i++;
+}
+return NULL;
 }
 
 void inserirTextoComQuebra(Editor *ed, const char *texto) {
