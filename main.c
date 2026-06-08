@@ -43,6 +43,7 @@ int main(void) {
             /*
                 Antes de alterar, guardar estado para undo.
                 Depois chamar inserirNoFim().
+                Antonio
             */
         }
 
@@ -50,6 +51,7 @@ int main(void) {
             /*
                 Guardar estado.
                 Inserir texto na posição do cursor.
+                Afonso
             */
         }
 
@@ -59,6 +61,7 @@ int main(void) {
                 Extrair o texto.
                 Guardar estado.
                 Chamar inserirNaLinha().
+                Rodrigo
             */
            
         }
@@ -67,6 +70,7 @@ int main(void) {
             /*
                 Guardar estado.
                 Remover linha do cursor.
+                Antonio
             */
         }
 
@@ -75,6 +79,7 @@ int main(void) {
                 Extrair número da linha.
                 Guardar estado.
                 Remover linha n.
+                Afonso
             */
         }
 
@@ -82,6 +87,7 @@ int main(void) {
             /*
                 Guardar estado.
                 Editar linha do cursor.
+                Rodrigo
             */
         }
 
@@ -91,6 +97,7 @@ int main(void) {
                 Extrair texto.
                 Guardar estado.
                 Editar linha n.
+                Antonio
             */
         }
 
@@ -114,18 +121,7 @@ int main(void) {
             /*
                 Extrair texto a pesquisar.
                 Chamar pesquisarTexto().
-            */
-        }
-
-        else if (strcmp(comando, "spell") == 0) {
-            /*
-                Chamar verificarOrtografia().
-            */
-        }
-
-        else if (strcmp(comando, "undo") == 0) {
-            /*
-                Chamar fazerUndo().
+                Afonso
             */
         }
 
@@ -135,8 +131,7 @@ int main(void) {
     }
 
     libertarEditor(&editor);
-    libertarDicionario(&dicionario);
-    libertarUndo(&undo);
+    
 
     return 0;
 }
