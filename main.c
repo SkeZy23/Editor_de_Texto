@@ -53,6 +53,8 @@ int main(void) {
                 Inserir texto na posição do cursor.
                 Afonso
             */
+            char *texto = comando + 15;
+            inserirNoCursor(&editor, texto);
         }
 
         else if (strncmp(comando, "InsertInLine ", 13) == 0) {
@@ -81,6 +83,8 @@ int main(void) {
                 Remover linha n.
                 Afonso
             */
+            int n = atoi(comando + 13);
+            removerLinhaN(&editor, n);
         }
 
         else if (strncmp(comando, "EditCursor ", 11) == 0) {
@@ -123,6 +127,8 @@ int main(void) {
                 Chamar pesquisarTexto().
                 Afonso
             */
+            char *padrao = comando + 7;
+            pesquisarTexto(&editor, padrao);
         }
 
         else {
