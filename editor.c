@@ -37,8 +37,14 @@ Linha *criarLinha(const char *texto) {
         Devolver ponteiro para a nova linha
         Afonso
     */
-
-    return NULL;
+    Linha *nova = malloc(sizeof(Linha));
+    if (nova == NULL)
+        return NULL;
+    strncpy(nova->texto, texto, MAX_LINHA);
+    nova->texto[MAX_LINHA] = '\0';
+    nova->anterior = NULL;
+    nova->seguinte = NULL;
+    return nova;
 }
 
 void inserirNoCursor(Editor *ed, const char *texto) {
@@ -118,6 +124,20 @@ void inserirNoFim(Editor *ed, const char *texto) {
         Caso contrário, ligar depois do fim atual.
         Afonso
     */
+
+    Linha *novaLinha = criarLinha(texto);
+    if (ed->fim == NULL) {
+        ed->inicio = novaLinha;
+        ed->fim = novaLinha;
+        ed->cursor = novaLinha;
+    }
+    else {
+        novaLinha->anterior = ed->fim;
+        ed->fim->seguinte = novaLinha;
+        ed->fim = novaLinha;
+    }
+    ed->totalLinhas++;
+
 }
 
 void removerLinhaCursor(Editor *ed) {
@@ -169,6 +189,12 @@ void editarCursor(Editor *ed, const char *texto) {
         Atenção ao limite de 40 caracteres.
         Afonso
     */
+
+    if (ed->cursor == NULL)
+        return;
+    strncpy(ed->cursor->texto, texto, MAX_LINHA);
+    ed->cursor->texto[MAX_LINHA] = '\0';
+
 }
 
 void editarLinhaN(Editor *ed, int n, const char *texto) {
@@ -201,6 +227,9 @@ void descerCursor(Editor *ed) {
         mover cursor para cursor->seguinte.
         Afonso
     */
+
+    if (ed->cursor != NULL && ed->cursor->seguinte != NULL)
+        ed->cursor = ed->cursor->seguinte;
 }
 
 void imprimirDocumento(Editor *ed) {
@@ -244,6 +273,20 @@ void pesquisarTexto(Editor *ed, const char *padrao) {
         Se não encontrar nenhuma, imprimir "not found".
         Afonso
     */
+
+    Linha *atual = ed->inicio;
+    int numeroLinha = 1;
+    int encontrou = 0;
+    while (atual != NULL) {
+        if (strstr(atual->texto, padrao) != NULL) {
+            printf("%d: %s\n", numeroLinha, atual->texto);
+            encontrou = 1;
+        }
+        atual = atual->seguinte;
+        numeroLinha++;
+    }
+    if (!encontrou)
+        printf("not found\n");
 }
 
 Linha *obterLinha(Editor *ed, int n) {
