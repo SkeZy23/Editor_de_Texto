@@ -3,21 +3,16 @@
 #include <string.h>
 
 #include "editor.h"
-#include "spellchecker.h"
-#include "undo.h"
-#include "utils.h"
+
 
 #define MAX_COMANDO 256
 
 int main(void) {
     Editor editor;
-    Dicionario dicionario;
-    PilhaUndo undo;
     char comando[MAX_COMANDO];
 
     inicializarEditor(&editor);
-    inicializarDicionario(&dicionario);
-    inicializarUndo(&undo);
+
 
     /*
         Opcional:
@@ -73,7 +68,7 @@ int main(void) {
 
     if (sscanf(comando + 13, "%d %[^\n]", &n, texto) == 2)
     {
-        guardarEstado(&undo, &editor);
+
         inserirNaLinha(&editor, n, texto);
     }
     else
@@ -110,7 +105,7 @@ int main(void) {
         Rodrigo
     */
     char *texto = comando + 11;
-    guardarEstado(&undo, &editor);
+
     editarCursor(&editor, texto);
 }
 
