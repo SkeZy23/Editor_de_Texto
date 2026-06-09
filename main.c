@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <strings.h>
+#include <ctype.h>
 
 #include "editor.h"
 #include "utils.h"
@@ -29,53 +31,79 @@ int main(void) {
 
         removerQuebraLinha(comando);
 
-        if (strcmp(comando, "exit") == 0) {
+        char *entrada = comando;
+        while (*entrada != '\0' && isspace((unsigned char)*entrada)) {
+            entrada++;
+        }
+
+        char *fim = entrada + strlen(entrada);
+        while (fim > entrada && isspace((unsigned char)fim[-1])) {
+            fim--;
+        }
+        *fim = '\0';
+
+        if (*entrada == '\0') {
+            continue;
+        }
+
+        char *args = strchr(entrada, ' ');
+        if (args != NULL) {
+            *args = '\0';
+            args++;
+            while (*args != '\0' && isspace((unsigned char)*args)) {
+                args++;
+            }
+        }
+
+        if (strcasecmp(entrada, "exit") == 0) {
             break;
         }
 
-        else if (strncmp(comando, "InsertEnd ", 10) == 0) {
+        else if (strcasecmp(entrada, "InsertEnd") == 0) {
             /*
                 Antes de alterar, guardar estado para undo.
                 Depois chamar inserirNoFim().
                 Antonio
             */
-           char *texto = comando + 10;
-           inserirNoFim(&editor, texto);
+            if (args != NULL && *args != '\0') {
+                inserirNoFim(&editor, args);
+            } else {
+                printf("Comando inválido. Uso: InsertEnd <texto>\n");
+            }
         }
 
-        else if (strncmp(comando, "InsertInCursor ", 15) == 0) {
+        else if (strcasecmp(entrada, "InsertInCursor") == 0) {
             /*
                 Guardar estado.
                 Inserir texto na posição do cursor.
                 Afonso
             */
-            char *texto = comando + 15;
-            inserirNoCursor(&editor, texto);
+            if (args != NULL && *args != '\0') {
+                inserirNoCursor(&editor, args);
+            } else {
+                printf("Comando inválido. Uso: InsertInCursor <texto>\n");
+            }
         }
 
-       else if (strncmp(comando, "InsertInLine ", 13) == 0)
-{
-    /*
-        Extrair o número da linha.
-        Extrair o texto.
-        Guardar estado.
-        Chamar inserirNaLinha().
-        Rodrigo
-    */
-    int n;
-    char texto[MAX_LINHA + 1];
+        else if (strcasecmp(entrada, "InsertInLine") == 0) {
+            /*
+                Extrair o número da linha.
+                Extrair o texto.
+                Guardar estado.
+                Chamar inserirNaLinha().
+                Rodrigo
+            */
+            int n;
+            char texto[MAX_LINHA + 1];
 
-    if (sscanf(comando + 13, "%d %[^\n]", &n, texto) == 2)
-    {
-        inserirNaLinha(&editor, n, texto);
-    }
-    else
-    {
-        printf("Comando inválido. Uso: InsertInLine <numero> <texto>\n");
-    }
-}
+            if (args != NULL && sscanf(args, "%d %[^\n]", &n, texto) == 2) {
+                inserirNaLinha(&editor, n, texto);
+            } else {
+                printf("Comando inválido. Uso: InsertInLine <numero> <texto>\n");
+            }
+        }
 
-        else if (strcmp(comando, "DeleteLine") == 0) {
+        else if (strcasecmp(entrada, "DeleteLine") == 0) {
             /*
                 Guardar estado.
                 Remover linha do cursor.
@@ -84,29 +112,35 @@ int main(void) {
             removerLinhaCursor(&editor);
         }
 
-        else if (strncmp(comando, "DeleteCursor ", 13) == 0) {
+        else if (strcasecmp(entrada, "DeleteCursor") == 0) {
             /*
                 Extrair número da linha.
                 Guardar estado.
                 Remover linha n.
                 Afonso
             */
-            int n = atoi(comando + 13);
-            removerLinhaN(&editor, n);
+            int n;
+            if (args != NULL && sscanf(args, "%d", &n) == 1) {
+                removerLinhaN(&editor, n);
+            } else {
+                printf("Comando inválido. Uso: DeleteCursor <numero>\n");
+            }
         }
 
-        else if (strncmp(comando, "EditCursor ", 11) == 0)
-{
-    /*
-        Guardar estado.
-        Editar linha do cursor.
-        Rodrigo
-    */
-    char *texto = comando + 11;
-    editarCursor(&editor, texto);
-}
+        else if (strcasecmp(entrada, "EditCursor") == 0) {
+            /*
+                Guardar estado.
+                Editar linha do cursor.
+                Rodrigo
+            */
+            if (args != NULL && *args != '\0') {
+                editarCursor(&editor, args);
+            } else {
+                printf("Comando inválido. Uso: EditCursor <texto>\n");
+            }
+        }
 
-        else if (strncmp(comando, "EditLine ", 9) == 0) {
+        else if (strcasecmp(entrada, "EditLine") == 0) {
             /*
                 Extrair número da linha.
                 Extrair texto.
@@ -116,37 +150,40 @@ int main(void) {
             */
             int n;
             char texto[MAX_LINHA + 1];
-            if (sscanf(comando + 9, "%d %[^\n]", &n, texto) == 2) {
+            if (args != NULL && sscanf(args, "%d %[^\n]", &n, texto) == 2) {
                 editarLinhaN(&editor, n, texto);
             } else {
                 printf("Comando inválido. Uso: EditLine <numero> <texto>\n");
             }
         }
 
-        else if (strcmp(comando, "GoUp") == 0) {
+        else if (strcasecmp(entrada, "GoUp") == 0) {
             subirCursor(&editor);
         }
 
-        else if (strcmp(comando, "GoDown") == 0) {
+        else if (strcasecmp(entrada, "GoDown") == 0) {
             descerCursor(&editor);
         }
 
-        else if (strcmp(comando, "Print") == 0) {
+        else if (strcasecmp(entrada, "Print") == 0) {
             imprimirDocumento(&editor);
         }
 
-        else if (strcmp(comando, "PrintCursor") == 0) {
+        else if (strcasecmp(entrada, "PrintCursor") == 0) {
             imprimirCursor(&editor);
         }
 
-        else if (strncmp(comando, "Search ", 7) == 0) {
+        else if (strcasecmp(entrada, "Search") == 0) {
             /*
                 Extrair texto a pesquisar.
                 Chamar pesquisarTexto().
                 Afonso
             */
-            char *padrao = comando + 7;
-            pesquisarTexto(&editor, padrao);
+            if (args != NULL && *args != '\0') {
+                pesquisarTexto(&editor, args);
+            } else {
+                printf("Comando inválido. Uso: Search <texto>\n");
+            }
         }
 
         else {
@@ -155,7 +192,6 @@ int main(void) {
     }
 
     libertarEditor(&editor);
-    
 
     return 0;
 }

@@ -271,10 +271,10 @@ void descerCursor(Editor *ed)
         ed->cursor = ed->cursor->seguinte;
 }
 
-void imprimirDocumento(Editor *ed)
+void imprimirDocumento(const Editor *ed)
 {
     /*Rodrigo*/
-    Linha *atual = ed->inicio;
+    const Linha *atual = ed->inicio;
     int numeroLinha = 1;
     while (atual != NULL)
     {
@@ -291,7 +291,7 @@ void imprimirDocumento(Editor *ed)
     }
 }
 
-void imprimirCursor(Editor *ed)
+void imprimirCursor(const Editor *ed)
 {
     /*
         Imprimir apenas a linha atual do cursor.
@@ -304,7 +304,7 @@ void imprimirCursor(Editor *ed)
     }
 
     int numeroLinha = 1;
-    Linha *atual = ed->inicio;
+    const Linha *atual = ed->inicio;
     while (atual != NULL && atual != ed->cursor)
     {
         atual = atual->seguinte;
@@ -317,7 +317,7 @@ void imprimirCursor(Editor *ed)
     printf("-> %d: %s\n", numeroLinha, ed->cursor->texto);
 }
 
-void pesquisarTexto(Editor *ed, const char *padrao)
+void pesquisarTexto(const Editor *ed, const char *padrao)
 {
     /*
         Percorrer todas as linhas.
