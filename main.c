@@ -57,16 +57,28 @@ int main(void) {
             inserirNoCursor(&editor, texto);
         }
 
-        else if (strncmp(comando, "InsertInLine ", 13) == 0) {
-            /*
-                Extrair o número da linha.
-                Extrair o texto.
-                Guardar estado.
-                Chamar inserirNaLinha().
-                Rodrigo
-            */
-           
-        }
+       else if (strncmp(comando, "InsertInLine ", 13) == 0)
+{
+    /*
+        Extrair o número da linha.
+        Extrair o texto.
+        Guardar estado.
+        Chamar inserirNaLinha().
+        Rodrigo
+    */
+    int n;
+    char texto[MAX_LINHA + 1];
+
+    if (sscanf(comando + 13, "%d %[^\n]", &n, texto) == 2)
+    {
+        guardarEstado(&undo, &editor);
+        inserirNaLinha(&editor, n, texto);
+    }
+    else
+    {
+        printf("Comando inválido. Uso: InsertInLine <numero> <texto>\n");
+    }
+}
 
         else if (strcmp(comando, "DeleteLine") == 0) {
             /*
@@ -87,13 +99,17 @@ int main(void) {
             removerLinhaN(&editor, n);
         }
 
-        else if (strncmp(comando, "EditCursor ", 11) == 0) {
-            /*
-                Guardar estado.
-                Editar linha do cursor.
-                Rodrigo
-            */
-        }
+        else if (strncmp(comando, "EditCursor ", 11) == 0)
+{
+    /*
+        Guardar estado.
+        Editar linha do cursor.
+        Rodrigo
+    */
+    char *texto = comando + 11;
+    guardarEstado(&undo, &editor);
+    editarCursor(&editor, texto);
+}
 
         else if (strncmp(comando, "EditLine ", 9) == 0) {
             /*
