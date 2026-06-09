@@ -23,6 +23,5 @@ int compararComando(const char *entrada, const char *comando) {
         Verificar se a entrada começa com determinado comando.
         Pode ser feito com strncmp().
     */
-    return strncmp(entrada, comando, strlen(comando)) == 0;  
-    return 0;
+    return strncmp(entrada, comando, strlen(comando)) == 0;
 }
