@@ -271,7 +271,7 @@ void descerCursor(Editor *ed)
         ed->cursor = ed->cursor->seguinte;
 }
 
-void imprimirDocumento(const Editor *ed)
+void imprimirDocumento(Editor *ed)
 {
     /*Rodrigo*/
     const Linha *atual = ed->inicio;
@@ -291,7 +291,7 @@ void imprimirDocumento(const Editor *ed)
     }
 }
 
-void imprimirCursor(const Editor *ed)
+void imprimirCursor(Editor *ed)
 {
     /*
         Imprimir apenas a linha atual do cursor.
@@ -317,7 +317,7 @@ void imprimirCursor(const Editor *ed)
     printf("-> %d: %s\n", numeroLinha, ed->cursor->texto);
 }
 
-void pesquisarTexto(const Editor *ed, const char *padrao)
+void pesquisarTexto(Editor *ed, const char *padrao)
 {
     /*
         Percorrer todas as linhas.
