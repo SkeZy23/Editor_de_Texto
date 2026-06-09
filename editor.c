@@ -291,7 +291,7 @@ void imprimirDocumento(Editor *ed)
     }
 }
 
-void imprimirCursor(const Editor *ed)
+void imprimirCursor(Editor *ed)
 {
     /*
         Imprimir apenas a linha atual do cursor.
