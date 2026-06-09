@@ -3,19 +3,16 @@
 #include <string.h>
 
 #include "editor.h"
-#include "spellchecker.h"
-#include "undo.h"
 #include "utils.h"
 
 #define MAX_COMANDO 256
 
 int main(void) {
     Editor editor;
-    Dicionario dicionario;
     char comando[MAX_COMANDO];
 
     inicializarEditor(&editor);
-    inicializarUtils(&dicionario);
+    inicializarUtils();
 
     /*
         Opcional:
@@ -159,7 +156,7 @@ int main(void) {
     }
 
     libertarEditor(&editor);
-    libertarUtils(&dicionario); 
+    libertarUtils(); 
     
 
     return 0;
