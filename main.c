@@ -12,7 +12,6 @@ int main(void) {
     char comando[MAX_COMANDO];
 
     inicializarEditor(&editor);
-    inicializarUtils();
 
     /*
         Opcional:
@@ -156,7 +155,6 @@ int main(void) {
     }
 
     libertarEditor(&editor);
-    libertarUtils(); 
     
 
     return 0;
