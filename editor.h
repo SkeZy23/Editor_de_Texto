@@ -1,7 +1,7 @@
 #ifndef EDITOR_H
 #define EDITOR_H
 
-#define MAX_LINHA 40
+#define MAX_LINHA 80
 typedef struct Linha{
     char texto[MAX_LINHA +1];
     struct Linha *anterior;
