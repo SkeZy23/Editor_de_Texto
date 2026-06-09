@@ -40,11 +40,11 @@ void subirCursor(Editor *ed);
 void descerCursor(Editor *ed);
 
 /*Visualização*/
-void imprimirDocumento(const Editor *ed);
-void imprimirCursor(const Editor *ed);
+void imprimirDocumento(Editor *ed);
+void imprimirCursor(Editor *ed);
 
 /*Pesquisa*/
-void pesquisarTexto(const Editor *ed, const char *padrao);
+void pesquisarTexto(Editor *ed, const char *padrao);
 
 /*Funções Auxiliares*/
 Linha* obterLinha(Editor *ed, int n);
