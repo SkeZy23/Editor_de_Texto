@@ -291,7 +291,7 @@ void imprimirDocumento(Editor *ed)
     }
 }
 
-void imprimirCursor(Editor *ed)
+void imprimirCursor(const Editor *ed)
 {
     /*
         Imprimir apenas a linha atual do cursor.
@@ -299,15 +299,20 @@ void imprimirCursor(Editor *ed)
     */
     if (ed->cursor == NULL)
     {
-        printf("Cursor Vazio. \n");
+        printf("Cursor vazio.\n");
         return;
     }
-    Linha *linhaAtual = ed->cursor;
+
     int numeroLinha = 1;
-    while (linhaAtual != NULL)
+    Linha *atual = ed->inicio;
+    while (atual != NULL && atual != ed->cursor)
     {
-        linhaAtual = linhaAtual->seguinte;
+        atual = atual->seguinte;
         numeroLinha++;
+    }
+    if (atual == NULL) {
+    printf("Cursor fora da lista.\n");
+    return;
     }
     printf("-> %d: %s\n", numeroLinha, ed->cursor->texto);
 }
