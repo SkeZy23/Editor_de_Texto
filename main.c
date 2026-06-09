@@ -45,6 +45,8 @@ int main(void) {
                 Depois chamar inserirNoFim().
                 Antonio
             */
+           char *texto = comando + 10;
+           inserirNoFim(&editor, texto);
         }
 
         else if (strncmp(comando, "InsertInCursor ", 15) == 0) {
@@ -86,6 +88,7 @@ int main(void) {
                 Remover linha do cursor.
                 Antonio
             */
+            removerLinhaN(&editor, editor.cursor - editor.inicio + 1);
         }
 
         else if (strncmp(comando, "DeleteCursor ", 13) == 0) {
@@ -119,6 +122,13 @@ int main(void) {
                 Editar linha n.
                 Antonio
             */
+            int n;
+            char texto[MAX_LINHA + 1];
+            if (sscanf(comando + 9, "%d %[^\n]", &n, texto) == 2) {
+                editarLinha(&editor, n, texto);
+            } else {
+                printf("Comando inválido. Uso: EditLine <numero> <texto>\n");
+            }
         }
 
         else if (strcmp(comando, "GoUp") == 0) {
