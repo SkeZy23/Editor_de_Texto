@@ -55,11 +55,11 @@ int main(void) {
             }
         }
 
-        if (strcasecmp(entrada, "exit") == 0) {
+        if (strcmp(entrada, "exit") == 0) {
             break;
         }
 
-        else if (strcasecmp(entrada, "InsertEnd") == 0) {
+        else if (strcmp(entrada, "InsertEnd") == 0) {
             /*
                 Antes de alterar, guardar estado para undo.
                 Depois chamar inserirNoFim().
@@ -72,7 +72,7 @@ int main(void) {
             }
         }
 
-        else if (strcasecmp(entrada, "InsertInCursor") == 0) {
+        else if (strcmp(entrada, "InsertInCursor") == 0) {
             /*
                 Guardar estado.
                 Inserir texto na posição do cursor.
@@ -85,7 +85,7 @@ int main(void) {
             }
         }
 
-        else if (strcasecmp(entrada, "InsertInLine") == 0) {
+        else if (strcmp(entrada, "InsertInLine") == 0) {
             /*
                 Extrair o número da linha.
                 Extrair o texto.
@@ -103,7 +103,7 @@ int main(void) {
             }
         }
 
-        else if (strcasecmp(entrada, "DeleteLine") == 0) {
+        else if (strcmp(entrada, "DeleteLine") == 0) {
             /*
                 Guardar estado.
                 Remover linha do cursor.
@@ -112,7 +112,7 @@ int main(void) {
             removerLinhaCursor(&editor);
         }
 
-        else if (strcasecmp(entrada, "DeleteCursor") == 0) {
+        else if (strcmp(entrada, "DeleteCursor") == 0) {
             /*
                 Extrair número da linha.
                 Guardar estado.
@@ -127,7 +127,7 @@ int main(void) {
             }
         }
 
-        else if (strcasecmp(entrada, "EditCursor") == 0) {
+        else if (strcmp(entrada, "EditCursor") == 0) {
             /*
                 Guardar estado.
                 Editar linha do cursor.
@@ -140,7 +140,7 @@ int main(void) {
             }
         }
 
-        else if (strcasecmp(entrada, "EditLine") == 0) {
+        else if (strcmp(entrada, "EditLine") == 0) {
             /*
                 Extrair número da linha.
                 Extrair texto.
@@ -157,23 +157,23 @@ int main(void) {
             }
         }
 
-        else if (strcasecmp(entrada, "GoUp") == 0) {
+        else if (strcmp(entrada, "GoUp") == 0) {
             subirCursor(&editor);
         }
 
-        else if (strcasecmp(entrada, "GoDown") == 0) {
+        else if (strcmp(entrada, "GoDown") == 0) {
             descerCursor(&editor);
         }
 
-        else if (strcasecmp(entrada, "Print") == 0) {
+        else if (strcmp(entrada, "Print") == 0) {
             imprimirDocumento(&editor);
         }
 
-        else if (strcasecmp(entrada, "PrintCursor") == 0) {
+        else if (strcmp(entrada, "PrintCursor") == 0) {
             imprimirCursor(&editor);
         }
 
-        else if (strcasecmp(entrada, "Search") == 0) {
+        else if (strcmp(entrada, "Search") == 0) {
             /*
                 Extrair texto a pesquisar.
                 Chamar pesquisarTexto().
