@@ -8,6 +8,7 @@
 void inicializarDicionario(Dicionario *dic) {
     /*
         Colocar todas as posições da tabela a NULL.
+        Rodrigo 
     */
 }
 
@@ -15,6 +16,7 @@ void libertarDicionario(Dicionario *dic) {
     /*
         Percorrer cada posição da tabela.
         Libertar todas as listas ligadas.
+        Afonso
     */
 }
 
@@ -24,6 +26,7 @@ unsigned int hashPalavra(const char *palavra) {
         Exemplo:
         hash = hash * 31 + caractere
         devolver hash % TAM_HASH
+        Antonio
     */
 
     return 0;
@@ -35,6 +38,7 @@ void carregarDicionario(Dicionario *dic, const char *nomeFicheiro) {
         Ler palavra a palavra.
         Limpar cada palavra.
         Inserir na tabela de hash.
+       Rodrigo
     */
 }
 
@@ -43,6 +47,7 @@ void inserirPalavra(Dicionario *dic, const char *palavra) {
         Calcular posição hash.
         Criar novo nó Palavra.
         Inserir no início da lista dessa posição.
+        Afonso
     */
 }
 
@@ -52,6 +57,7 @@ int existePalavra(Dicionario *dic, const char *palavra) {
         Percorrer a lista dessa posição.
         Comparar com strcmp().
         Devolver 1 se existir, 0 se não existir.
+        Antonio
     */
 
     return 0;
@@ -65,6 +71,7 @@ void verificarOrtografia(Editor *ed, Dicionario *dic) {
         Converter para minúsculas.
         Verificar se a palavra existe no dicionário.
         Se não existir, imprimir a palavra.
+        Rodrigo
     */
 }
 
@@ -72,5 +79,6 @@ void limparPalavra(char *palavra) {
     /*
         Remover pontuação.
         Converter tudo para minúsculas.
+        Afonso
     */
 }
