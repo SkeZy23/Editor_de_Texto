@@ -12,6 +12,7 @@ void libertarUndo(PilhaUndo *pilha) {
     /*
         Libertar todos os estados guardados.
         Cada estado contém uma cópia do editor.
+        Rodrigo
     */
 }
 
@@ -20,6 +21,7 @@ void guardarEstado(PilhaUndo *pilha, Editor *ed) {
         Criar novo Estado.
         Fazer uma cópia completa do editor atual.
         Colocar no topo da pilha.
+        Afonso
     */
 }
 
@@ -30,6 +32,7 @@ int fazerUndo(PilhaUndo *pilha, Editor *ed) {
         - Libertar o editor atual.
         - Restaurar o editor guardado no topo.
         - Remover esse estado da pilha.
+        Antonio
     */
 
     return 0;
@@ -41,5 +44,6 @@ void copiarEditor(Editor *destino, Editor *origem) {
         Percorrer todas as linhas de origem.
         Copiar cada linha para destino.
         Garantir que o cursor fica na mesma posição relativa.
+        Antonio
     */
 }
