@@ -16,13 +16,20 @@ void libertarUndo(PilhaUndo *pilha) {
     */
 }
 
-void guardarEstado(PilhaUndo *pilha, Editor *ed) {
+void guardarEstado(PilhaUndo *pilha, Editor *ed)
+{
     /*
         Criar novo Estado.
         Fazer uma cópia completa do editor atual.
         Colocar no topo da pilha.
         Afonso
     */
+    Estado *novo = malloc(sizeof(Estado));
+    if (novo == NULL)
+        return;
+    copiarEditor(&novo->documento, ed);
+    novo->seguinte = pilha->topo;
+    pilha->topo = novo;
 }
 
 int fazerUndo(PilhaUndo *pilha, Editor *ed) {
