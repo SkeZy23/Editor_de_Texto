@@ -6,10 +6,10 @@
 #include "spellchecker.h"
 
 void inicializarDicionario(Dicionario *dic) {
-    /*
-        Colocar todas as posições da tabela a NULL.
-        Rodrigo 
-    */
+    /*Rodrigo*/
+    for (int i = 0; i < TAM_HASH; i++) {
+        dic->tabela[i] = NULL;
+    }
 }
 
 void libertarDicionario(Dicionario *dic)
@@ -44,13 +44,20 @@ unsigned int hashPalavra(const char *palavra) {
 }
 
 void carregarDicionario(Dicionario *dic, const char *nomeFicheiro) {
-    /*
-        Abrir ficheiro do dicionário.
-        Ler palavra a palavra.
-        Limpar cada palavra.
-        Inserir na tabela de hash.
-       Rodrigo
-    */
+    /*Rodrigo*/
+    FILE *f = fopen(nomeFicheiro, "r");
+    if (f == NULL) {
+        printf("Erro: não foi possível abrir '%s'.\n", nomeFicheiro);
+        return;
+    }
+    char linha[MAX_PALAVRA];
+    while (fgets(linha, MAX_PALAVRA, f) != NULL) {
+        linha[strcspn(linha, "\n")] = '\0';
+        limparPalavra(linha);
+        if (strlen(linha) > 0)
+            inserirPalavra(dic, linha);
+    }
+    fclose(f);
 }
 
 void inserirPalavra(Dicionario *dic, const char *palavra)
@@ -84,15 +91,29 @@ int existePalavra(Dicionario *dic, const char *palavra) {
 }
 
 void verificarOrtografia(Editor *ed, Dicionario *dic) {
-    /*
-        Percorrer todas as linhas do editor.
-        Separar cada linha em palavras.
-        Limpar pontuação.
-        Converter para minúsculas.
-        Verificar se a palavra existe no dicionário.
-        Se não existir, imprimir a palavra.
-        Rodrigo
-    */
+    /*Rodrigo*/
+    Linha *atual = ed->inicio;
+    int numeroLinha = 1;
+    while (atual != NULL) {
+        char copia[MAX_LINHA + 1];
+        strncpy(copia, atual->texto, MAX_LINHA);
+        copia[MAX_LINHA] = '\0';
+
+        char *token = strtok(copia, " \t");
+        while (token != NULL) {
+            char palavra[MAX_PALAVRA];
+            strncpy(palavra, token, MAX_PALAVRA - 1);
+            palavra[MAX_PALAVRA - 1] = '\0';
+            limparPalavra(palavra);
+
+            if (strlen(palavra) > 0 && !existePalavra(dic, palavra)) {
+                printf("Linha %d: '%s' não encontrada no dicionário.\n", numeroLinha, token);
+            }
+            token = strtok(NULL, " \t");
+        }
+        atual = atual->seguinte;
+        numeroLinha++;
+    }
 }
 
 void limparPalavra(char *palavra)
