@@ -65,8 +65,7 @@ void carregarDicionario(Dicionario *dic, const char *nomeFicheiro) {
 void inserirPalavra(Dicionario *dic, const char *palavra)
 {
     /*
-        Calcular posição hash.
-        Criar novo nó Palavra.
+        Calcular posição hash.Criar novo nó Palavra.
         Inserir no início da lista dessa posição.
         Afonso
     */
@@ -124,8 +123,8 @@ void verificarOrtografia(Editor *ed, Dicionario *dic) {
 void limparPalavra(char *palavra)
 {
     /*
-        Remover pontuação.
-        Converter tudo para minúsculas.
+        Remover pontuaçao.
+        Converter para minúsculas.
         Afonso
     */
     int i = 0, j = 0;
