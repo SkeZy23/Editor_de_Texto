@@ -9,11 +9,15 @@ void inicializarUndo(PilhaUndo *pilha) {
 }
 
 void libertarUndo(PilhaUndo *pilha) {
-    /*
-        Libertar todos os estados guardados.
-        Cada estado contém uma cópia do editor.
-        Rodrigo
-    */
+    /*Rodrigo*/
+    Estado *atual = pilha->topo;
+    while (atual != NULL) {
+        Estado *seguinte = atual->seguinte;
+        libertarEditor(&atual->documento);
+        free(atual);
+        atual = seguinte;
+    }
+    pilha->topo = NULL;
 }
 
 void guardarEstado(PilhaUndo *pilha, Editor *ed)
