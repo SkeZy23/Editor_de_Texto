@@ -30,7 +30,9 @@ void guardarEstado(PilhaUndo *pilha, Editor *ed)
     */
     Estado *novo = malloc(sizeof(Estado));
     if (novo == NULL)
+    {
         return;
+    }
     copiarEditor(&novo->documento, ed);
     novo->seguinte = pilha->topo;
     pilha->topo = novo;

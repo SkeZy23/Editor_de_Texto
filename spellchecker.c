@@ -15,14 +15,15 @@ void inicializarDicionario(Dicionario *dic) {
 void libertarDicionario(Dicionario *dic)
 {
     /*
-        Percorrre cada posição da tabela.
+        Percorrer cada posição da tabela.
         Libertar todas as listas ligadas.
         Afonso
     */
-    for (int i = 0;i < TAM_HASH; i++)
+    for (int i = 0; i < TAM_HASH; i++)
     {
         Palavra *atual = dic->tabela[i];
-        while (atual != NULL){
+        while (atual != NULL)
+        {
             Palavra *proxima = atual->seguinte;
             free(atual);
             atual = proxima;
@@ -30,6 +31,7 @@ void libertarDicionario(Dicionario *dic)
         dic->tabela[i] = NULL;
     }
 }
+
 
 unsigned int hashPalavra(const char *palavra) {
     /*
@@ -71,12 +73,15 @@ void inserirPalavra(Dicionario *dic, const char *palavra)
     unsigned int pos = hashPalavra(palavra);
     Palavra *nova = malloc(sizeof(Palavra));
     if (nova == NULL)
+    {
         return;
+    }
     strncpy(nova->palavra, palavra, MAX_PALAVRA - 1);
     nova->palavra[MAX_PALAVRA - 1] = '\0';
     nova->seguinte = dic->tabela[pos];
     dic->tabela[pos] = nova;
 }
+
 
 int existePalavra(Dicionario *dic, const char *palavra) {
     /*
@@ -127,7 +132,9 @@ void limparPalavra(char *palavra)
     while (palavra[i] != '\0')
     {
         if (isalpha((unsigned char)palavra[i]))
+        {
             palavra[j++] = tolower((unsigned char)palavra[i]);
+        }
         i++;
     }
     palavra[j] = '\0';
