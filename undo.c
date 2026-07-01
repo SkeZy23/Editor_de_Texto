@@ -47,8 +47,17 @@ int fazerUndo(PilhaUndo *pilha, Editor *ed) {
         - Remover esse estado da pilha.
         Antonio
     */
-
-    return 0;
+    if (pilha == NULL || pilha->topo == NULL) {
+        return 0;
+    }else{
+        Estado *estado = pilha->topo;
+        pilha->topo = estado->seguinte;
+        libertarEditor(ed);
+        copiarEditor(ed, &estado->documento);
+        libertarEditor(&estado->documento);
+        free(estado);
+        return 1;
+    }
 }
 
 void copiarEditor(Editor *destino, Editor *origem) {
@@ -59,4 +68,19 @@ void copiarEditor(Editor *destino, Editor *origem) {
         Garantir que o cursor fica na mesma posição relativa.
         Antonio
     */
+   for (Linha *atual = origem->inicio; atual != NULL; atual = atual->seguinte) {
+        inserirNoFim(destino, atual->texto);
+    }
+    // Ajustar o cursor no destino
+    Linha *cursorOrigem = origem->cursor;
+    Linha *cursorDestino = destino->inicio;
+    while (cursorOrigem != NULL && cursorDestino != NULL) {
+        if (cursorOrigem == cursorDestino) {
+            destino->cursor = cursorDestino;
+            break;
+        }
+        cursorOrigem = cursorOrigem->seguinte;
+        cursorDestino = cursorDestino->seguinte;
+    }
+    
 }

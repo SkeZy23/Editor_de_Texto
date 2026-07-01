@@ -16,7 +16,7 @@ int main(void) {
 
     /*
         Opcional:
-        carregarDicionario(&dicionario, "portuguese.txt");
+        carregarDicionario(&dicionario, "portugues.txt");
     */
 
     printf("ED-LIN iniciado.\n");

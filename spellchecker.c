@@ -42,7 +42,11 @@ unsigned int hashPalavra(const char *palavra) {
         Antonio
     */
 
-    return 0;
+    unsigned int hash = 0;
+    for (int i = 0; palavra[i] != '\0'; i++) {
+        hash = hash * 31 + palavra[i];
+    }
+    return hash % TAM_HASH;
 }
 
 void carregarDicionario(Dicionario *dic, const char *nomeFicheiro) {
@@ -90,7 +94,14 @@ int existePalavra(Dicionario *dic, const char *palavra) {
         Devolver 1 se existir, 0 se não existir.
         Antonio
     */
-
+    unsigned int pos = hashPalavra(palavra);
+    Palavra *atual = dic->tabela[pos];
+    while (atual != NULL) {
+        if (strcmp(atual->palavra, palavra) == 0) {
+            return 1;
+        }
+        atual = atual->seguinte;
+    }
     return 0;
 }
 
