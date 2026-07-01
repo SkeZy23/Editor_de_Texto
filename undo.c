@@ -9,7 +9,12 @@ void inicializarUndo(PilhaUndo *pilha) {
 }
 
 void libertarUndo(PilhaUndo *pilha) {
-    /*Rodrigo*/
+    /*
+        Percorre a pilha toda do inicio ao fim.
+        Para cada estado liberta o editor guardado e depois liberta o proprio no.
+        No fim a pilha fica vazia (topo a NULL).
+        Rodrigo
+    */
     Estado *atual = pilha->topo;
     while (atual != NULL) {
         Estado *seguinte = atual->seguinte;
@@ -23,9 +28,9 @@ void libertarUndo(PilhaUndo *pilha) {
 void guardarEstado(PilhaUndo *pilha, Editor *ed)
 {
     /*
-        Criar novo Estado.
-        Fazer uma cópia completa do editor atual.
-        Colocar no topo da pilha.
+        Cria um Estado novo.
+        Faz uma copia completa do editor atual (pra nao perder nada).
+        Poe esse estado no topo da pilha.
         Afonso
     */
     Estado *novo = malloc(sizeof(Estado));
@@ -40,11 +45,11 @@ void guardarEstado(PilhaUndo *pilha, Editor *ed)
 
 int fazerUndo(PilhaUndo *pilha, Editor *ed) {
     /*
-        Se a pilha estiver vazia, não há undo possível.
-        Caso contrário:
-        - Libertar o editor atual.
-        - Restaurar o editor guardado no topo.
-        - Remover esse estado da pilha.
+        Se a pilha tiver vazia nao ha undo possivel, sai logo.
+        Se nao:
+        - Liberta o editor atual.
+        - Restaura o editor que estava guardado no topo.
+        - Tira esse estado da pilha.
         Antonio
     */
     if (pilha == NULL || pilha->topo == NULL) {
@@ -62,10 +67,10 @@ int fazerUndo(PilhaUndo *pilha, Editor *ed) {
 
 void copiarEditor(Editor *destino, Editor *origem) {
     /*
-        Inicializar destino.
-        Percorrer todas as linhas de origem.
-        Copiar cada linha para destino.
-        Garantir que o cursor fica na mesma posição relativa.
+        Inicializa o destino primeiro.
+        Percorre todas as linhas do editor de origem.
+        Vai copiando cada linha pro destino.
+        Garante que o cursor fica na mesma posiçao relativa la no fim.
         Antonio
     */
     inicializarEditor(destino);

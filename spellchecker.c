@@ -6,7 +6,11 @@
 #include "spellchecker.h"
 
 void inicializarDicionario(Dicionario *dic) {
-    /*Rodrigo*/
+    /*
+        Poe todas as posiçoes da tabela hash a NULL.
+        É basicamente so inicializar o dicionario vazio.
+        Rodrigo
+    */
     for (int i = 0; i < TAM_HASH; i++) {
         dic->tabela[i] = NULL;
     }
@@ -15,8 +19,8 @@ void inicializarDicionario(Dicionario *dic) {
 void libertarDicionario(Dicionario *dic)
 {
     /*
-        Percorrer cada posição da tabela.
-        Libertar todas as listas ligadas.
+        Percorre cada posiçao da tabela.
+        Vai libertando todas as listas ligadas uma a uma.
         Afonso
     */
     for (int i = 0; i < TAM_HASH; i++)
@@ -35,10 +39,10 @@ void libertarDicionario(Dicionario *dic)
 
 unsigned int hashPalavra(const char *palavra) {
     /*
-        Criar uma função hash simples.
-        Exemplo:
+        Cria uma funçao hash simples.
+        Ideia:
         hash = hash * 31 + caractere
-        devolver hash % TAM_HASH
+        no fim devolve hash % TAM_HASH
         Antonio
     */
 
@@ -50,7 +54,12 @@ unsigned int hashPalavra(const char *palavra) {
 }
 
 void carregarDicionario(Dicionario *dic, const char *nomeFicheiro) {
-    /*Rodrigo*/
+    /*
+        Abre o ficheiro com as palavras todas.
+        Le linha a linha, limpa cada palavra e insere no dicionario.
+        Se o ficheiro nao abrir da erro e sai.
+        Rodrigo
+    */
     FILE *f = fopen(nomeFicheiro, "r");
     if (f == NULL) {
         printf("Erro: não foi possível abrir '%s'.\n", nomeFicheiro);
@@ -69,8 +78,9 @@ void carregarDicionario(Dicionario *dic, const char *nomeFicheiro) {
 void inserirPalavra(Dicionario *dic, const char *palavra)
 {
     /*
-        Calcular posição hash.Criar novo nó Palavra.
-        Inserir no início da lista dessa posição.
+        Calcula a posiçao hash.
+        Cria um no novo do tipo Palavra.
+        Insere no inicio da lista dessa posiçao (mais facil e rapido).
         Afonso
     */
     unsigned int pos = hashPalavra(palavra);
@@ -88,10 +98,10 @@ void inserirPalavra(Dicionario *dic, const char *palavra)
 
 int existePalavra(Dicionario *dic, const char *palavra) {
     /*
-        Calcular hash.
-        Percorrer a lista dessa posição.
-        Comparar com strcmp().
-        Devolver 1 se existir, 0 se não existir.
+        Calcula o hash da palavra.
+        Percorre a lista dessa posiçao a ver se encontra.
+        Compara com strcmp().
+        Devolve 1 se existir, 0 se nao existir.
         Antonio
     */
     unsigned int pos = hashPalavra(palavra);
@@ -106,7 +116,13 @@ int existePalavra(Dicionario *dic, const char *palavra) {
 }
 
 void verificarOrtografia(Editor *ed, Dicionario *dic) {
-    /*Rodrigo*/
+    /*
+        Percorre todas as linhas do documento uma a uma.
+        Separa cada linha em palavras (tokens).
+        Limpa cada palavra e vai ver se ela existe no dicionario.
+        Se nao existir avisa o utilizador com o numero da linha.
+        Rodrigo
+    */
     Linha *atual = ed->inicio;
     int numeroLinha = 1;
     while (atual != NULL) {
@@ -134,8 +150,8 @@ void verificarOrtografia(Editor *ed, Dicionario *dic) {
 void limparPalavra(char *palavra)
 {
     /*
-        Remover pontuaçao.
-        Converter para minúsculas.
+        Remove a pontuaçao toda.
+        Converte pra minusculas.
         Afonso
     */
     int i = 0, j = 0;
