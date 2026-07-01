@@ -68,19 +68,11 @@ void copiarEditor(Editor *destino, Editor *origem) {
         Garantir que o cursor fica na mesma posição relativa.
         Antonio
     */
-   for (Linha *atual = origem->inicio; atual != NULL; atual = atual->seguinte) {
+    inicializarEditor(destino);
+    for (Linha *atual = origem->inicio; atual != NULL; atual = atual->seguinte) {
         inserirNoFim(destino, atual->texto);
-    }
-    // Ajustar o cursor no destino
-    Linha *cursorOrigem = origem->cursor;
-    Linha *cursorDestino = destino->inicio;
-    while (cursorOrigem != NULL && cursorDestino != NULL) {
-        if (cursorOrigem == cursorDestino) {
-            destino->cursor = cursorDestino;
-            break;
+        if (atual == origem->cursor) {
+            destino->cursor = destino->fim;
         }
-        cursorOrigem = cursorOrigem->seguinte;
-        cursorDestino = cursorDestino->seguinte;
     }
-    
 }
