@@ -11,7 +11,8 @@ void inicializarDicionario(Dicionario *dic) {
         É basicamente so inicializar o dicionario vazio.
         Rodrigo
     */
-    for (int i = 0; i < TAM_HASH; i++) {
+    int i;
+    for (i = 0; i < TAM_HASH; i++) {
         dic->tabela[i] = NULL;
     }
 }
@@ -83,7 +84,7 @@ void inserirPalavra(Dicionario *dic, const char *palavra)
         Insere no inicio da lista dessa posiçao (mais facil e rapido).
         Afonso
     */
-    unsigned int pos = hashPalavra(palavra);
+    unsigned int posicao = hashPalavra(palavra);
     Palavra *nova = malloc(sizeof(Palavra));
     if (nova == NULL)
     {
@@ -91,8 +92,8 @@ void inserirPalavra(Dicionario *dic, const char *palavra)
     }
     strncpy(nova->palavra, palavra, MAX_PALAVRA - 1);
     nova->palavra[MAX_PALAVRA - 1] = '\0';
-    nova->seguinte = dic->tabela[pos];
-    dic->tabela[pos] = nova;
+    nova->seguinte = dic->tabela[posicao];
+    dic->tabela[posicao] = nova;
 }
 
 
@@ -142,8 +143,8 @@ void verificarOrtografia(Editor *ed, Dicionario *dic) {
             }
             token = strtok(NULL, " \t");
         }
-        atual = atual->seguinte;
         numeroLinha++;
+        atual = atual->seguinte;
     }
 }
 

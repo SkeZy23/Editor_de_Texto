@@ -34,7 +34,7 @@ void guardarEstado(PilhaUndo *pilha, Editor *ed)
         Afonso
     */
     Estado *novo = malloc(sizeof(Estado));
-    if (novo == NULL)
+    if (!novo)
     {
         return;
     }
@@ -74,7 +74,7 @@ void copiarEditor(Editor *destino, Editor *origem) {
         Antonio
     */
     inicializarEditor(destino);
-    for (Linha *atual = origem->inicio; atual != NULL; atual = atual->seguinte) {
+    for (Linha *atual = origem->inicio; atual; atual = atual->seguinte) {
         inserirNoFim(destino, atual->texto);
         if (atual == origem->cursor) {
             destino->cursor = destino->fim;
